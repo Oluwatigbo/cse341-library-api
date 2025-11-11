@@ -1,0 +1,17 @@
+GET http://localhost:3000/books/69134f86c34fd74895656fb2
+
+PUT http://localhost:3000/books/69134f86c34fd74895656fb2
+Content-Type: application/json
+
+ {
+    "_id": "69134f86c34fd74895656fb2",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Fiction",
+    "publicationYear": 1925,
+    "isbn": "978-0-7432-7356-5",
+    "pages": 180,
+    "availableCopies": 3
+  }
+
+DELETE http://localhost:3000/books/69134f86c34fd74895656fb2
