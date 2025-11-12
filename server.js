@@ -1,34 +1,36 @@
-    require('dotenv').config();
-     const express = require('express');
-     const mongoose = require('mongoose');
-     const swaggerJsdoc = require('swagger-jsdoc');
-     const swaggerUi = require('swagger-ui-express');
-     const cors = require('cors');  
-     const app = express();
-     const port = process.env.PORT || 3000;
+const express = require('express');
+const bodyParser = require('body-parser');  // Ensure this is required
+const mongodb = require('./data/database');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
+require('dotenv').config();
 
-     mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected to MongoDB'))
-       .catch(err => console.error('Connection error:', err));
+const app = express();
+const port = process.env.PORT || 3000;
 
-     app.use(cors());  
-     app.use(express.json());
+app.use(bodyParser.json());  // This parses JSON; ensure it's here
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Z-Key'
+    );
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    next();
+});
 
-     const swaggerOptions = {
-       definition: {
-         openapi: '3.0.0',
-         info: { title: 'Library API', version: '1.0.0', description: 'API for library management' },
-         servers: [
-           { url: 'http://localhost:3000' }, 
-           { url: 'https://cse341-library-api-9jqk.onrender.com' } 
-         ],
-       },
-       apis: ['./routes/books.js'],
-     };
-     const swaggerSpec = swaggerJsdoc(swaggerOptions);
-     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-     app.use('/books', require('./routes/books'));
+app.use('/', require('./routes'));
 
-     app.get('/', (req, res) => res.send('Library API'));
+app.get('/', (req, res) => res.send('Library API Running'));
 
-     app.listen(port, () => console.log(`Server on port ${port}`));
+mongodb.initDb((err) => {
+    if (err) {
+        console.log('DB init error:', err);
+    } else {
+        app.listen(port, () => {
+            console.log(`Database connected and server running on port ${port}`);
+        });
+    }
+});
