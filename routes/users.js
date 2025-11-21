@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { getAll, getSingle, createUser, updateUser, deleteUser } = require('../controllers/users');
 
+const { authenticate } = require('../middleware/authenticate');
+
 /**
  * @swagger
  * components:

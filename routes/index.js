@@ -1,6 +1,19 @@
+const passport = require('passport');
+
 const router = require('express').Router();
 
 router.use('/', require('./swagger'));
+router.use('/books', require('./books'));
+router.use('/users', require('./users'));
+
+router.get('/login', passport.authenticate('github'), (req, res) => { });
+
+router.get('/logout', function (req, res, next) {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
+});
 
 router.get('/', (req, res) => {
     //#swagger.tags = ['Library API'];
@@ -8,8 +21,7 @@ router.get('/', (req, res) => {
 });
 
 
-router.use('/books', require('./books'));
-router.use('/users', require('./users'));
+
 
 
 module.exports = router;

@@ -1,6 +1,8 @@
      const express = require('express');
      const router = express.Router();
-const { getAll, getSingle, createBook, updateBook, deleteBook } = require('../controllers/books');  // Ensure destructuring matches exports
+const { getAll, getSingle, createBook, updateBook, deleteBook } = require('../controllers/books');
+
+const { isAuthenticated } = require('../middleware/authenticate');
      
 
 /**
