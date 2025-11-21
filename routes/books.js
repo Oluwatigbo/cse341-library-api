@@ -162,7 +162,7 @@ const { isAuthenticated } = require('../middleware/authenticate');
 
      router.get('/', getAll);          // Line 10 might be this POST line
      router.get('/:id', getSingle);
-     router.post('/', isAuthenticated, createBook);     // If line 10 is POST, check if createBook is defined
+     router.post('/', createBook);     // If line 10 is POST, check if createBook is defined
      router.put('/:id',isAuthenticated, updateBook);
      router.delete('/:id',isAuthenticated, deleteBook);
 
