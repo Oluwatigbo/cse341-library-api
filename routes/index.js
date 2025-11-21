@@ -15,11 +15,6 @@ router.get('/logout', function (req, res, next) {
     });
 });
 
-router.get('/', (req, res) => {
-    //#swagger.tags = ['Library API'];
-    res.send('Library API is running');
-});
-
 
 
 
