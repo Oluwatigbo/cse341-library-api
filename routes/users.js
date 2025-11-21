@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getAll, getSingle, createUser, updateUser, deleteUser } = require('../controllers/users');
 
-const { iSAuthenticated } = require('../middleware/authenticate');
+const { isAuthenticated } = require('../middleware/authenticate');
 
 /**
  * @swagger
@@ -139,8 +139,8 @@ const { iSAuthenticated } = require('../middleware/authenticate');
 
 router.get('/', getAll);
 router.get('/:id', getSingle);
-router.post('/', iSAuthenticated, createUser);
-router.put('/:id',iSAuthenticated, updateUser);
-router.delete('/:id',iSAuthenticated, deleteUser);
+router.post('/', isAuthenticated, createUser);
+router.put('/:id',isAuthenticated, updateUser);
+router.delete('/:id',isAuthenticated, deleteUser);
 
 module.exports = router;
